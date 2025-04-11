@@ -1,0 +1,56 @@
+# network:
+#   ecg_model: resnet18
+#   # ecg_model: vit_tiny
+#   num_leads: 12
+#   ### this part does not control builder/trainer
+#   text_model: ncbi/MedCPT-Query-Encoder
+#   free_layers: 6 # set 12 to freeze all layer in bert
+#   feature_dim: 768
+
+#   projection_head:
+#     mlp_hidden_size: 256
+#     projection_size: 256
+#   ###
+
+network:
+  ecg_model: ecgfounder
+  # ecg_model: vit_tiny
+  num_leads: 12
+  ### this part does not control builder/trainer
+  text_model: medcpt
+  free_layers: 6 # set 12 to freeze all layer in bert
+  feature_dim: 768
+
+  projection_head:
+    mlp_hidden_size: 256
+    projection_size: 256
+  ###
+
+
+dataset:
+  dataset_name: 'mimic'
+  data_path: 'your_path/' # add your image file path here
+
+# params for trainer
+trainer:
+  batch_size: 32
+  val_batch_size: 32
+  checkpoint_interval: 50
+  max_epochs: 20
+  num_workers: 8
+  checkpoint: '../checkpoint'
+
+optimizer:
+  params:
+    lr: 1.0e-4
+    weight_decay: 1.0e-8
+
+# params for zeroshot eval
+zeroshot:
+  prompt_type: 'CKEPE'
+  prompt_dict: '../zeroshot/CKEPE_prompt.json'
+  batch_size: 256
+  num_workers: 8
+
+
+wandb_name: 'medcpt'

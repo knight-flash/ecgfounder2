@@ -1,0 +1,33 @@
+network:
+  model_name: 'ECGCLIP'
+  ckpt_path: "/data1/1shared/zhaojunbo/ecg/checkpoint/checkpoints/lm_GPT2-del-1-HEEDB_0_ckpt.pth"
+  ecg_model: resnet18
+  # ecg_model: vit_tiny
+  num_leads: 12
+  ### this part does not control builder/trainer
+  text_model: gpt2
+  free_layers: 6 # set 12 to freeze all layer in bert
+  feature_dim: 768
+
+  projection_head:
+    mlp_hidden_size: 256
+    projection_size: 256
+  ###
+
+
+# params for trainer
+tester:
+  batch_size: 32
+  val_batch_size: 128
+  checkpoint_interval: 50
+  max_epochs: 20
+  num_workers: 8
+  checkpoint: '../checkpoint'
+
+wandb_name: 'CLIP_test_1000'
+
+optimizer:
+  params:
+    lr: 1.0e-4
+    weight_decay: 1.0e-8
+
